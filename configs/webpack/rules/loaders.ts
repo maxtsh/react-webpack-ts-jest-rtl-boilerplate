@@ -46,6 +46,9 @@ export const babel: webpack.RuleSetRule = {
 
 export const typescript: webpack.RuleSetRule = {
   loader: "ts-loader",
+  options: {
+    transpileOnly: true,
+  },
 };
 
 export const file = (path: string): webpack.RuleSetRule => ({

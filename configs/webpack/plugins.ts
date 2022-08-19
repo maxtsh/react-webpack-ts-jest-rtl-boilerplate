@@ -5,17 +5,30 @@ import html from "./html";
 
 process.env.PUBLIC_PATH = process.env.PUBLIC_PATH || "/";
 
+const productionSettings =
+  process.env.NODE_ENV === "production"
+    ? {
+        minify: {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeRedundantAttributes: true,
+          useShortDoctype: true,
+          removeAttributeQuotes: true,
+          removeEmptyAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          keepClosingSlash: true,
+          minifyJS: true,
+          minifyCSS: true,
+          minifyURLs: true,
+        },
+      }
+    : {};
+
 const client: webpack.WebpackPluginInstance[] = [
   new HtmlWebpackPlugin({
     templateContent: html(),
     hash: true,
-    minify: {
-      removeComments: true,
-      collapseWhitespace: true,
-      removeAttributeQuotes: false,
-      minifyJS: true,
-      minifyCSS: true,
-    },
+    ...productionSettings,
   }),
   new MiniCssExtractPlugin({
     filename: "[name].[contenthash].css",

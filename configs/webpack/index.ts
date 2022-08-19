@@ -1,12 +1,12 @@
 import { Configuration as WebpackConfiguration } from "webpack";
 import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
-
 import resolvePath from "./path";
 import alias from "./alias";
 import rules from "./rules";
 import plugins from "./plugins";
 import devServer from "./devServer";
 import devtool from "./devtool";
+import output from "./output";
 
 interface Configuration extends WebpackConfiguration {
   devServer?: WebpackDevServerConfiguration;
@@ -15,8 +15,6 @@ interface Configuration extends WebpackConfiguration {
 const isProduction = process.env.NODE_ENV === "production";
 
 const context = resolvePath();
-
-const publicPath = process.env.PUBLIC_PATH || "/";
 
 const extensions = [
   "*",
@@ -36,10 +34,9 @@ const config: Configuration = {
   target: isProduction ? "browserslist" : "web",
   entry: [resolvePath("app/index.tsx")],
   output: {
-    filename: "[name].[contenthash].js",
     path: resolvePath("build"),
-    publicPath,
-    chunkFilename: "[name].[id].[contenthash].js",
+    publicPath: process.env.PUBLIC_PATH || "/",
+    ...output,
   },
   module: { rules },
   plugins,
@@ -48,10 +45,12 @@ const config: Configuration = {
   context,
   optimization: {
     emitOnErrors: true,
-    splitChunks: {
-      chunks: "all",
-    },
-    minimize: true,
+    splitChunks: isProduction
+      ? {
+          chunks: "all",
+        }
+      : false,
+    minimize: isProduction ? true : false,
     // minimizer: [
     //   new TerserPlugin({
     //     extractComments: false,
@@ -63,7 +62,7 @@ const config: Configuration = {
     // ],
   },
   performance: {
-    hints: false,
+    hints: isProduction ? "warning" : false,
   },
 };
 
