@@ -1,0 +1,78 @@
+{
+  "name": "react-webpack-ts-jest-boilerplate",
+  "version": "1.0.0",
+  "description": "A comprehensive modern react boilerplate",
+  "main": "index.tsx",
+  "keywords": [
+    "react",
+    "webpack",
+    "typescript",
+    "jest",
+    "boilerplate"
+  ],
+  "scripts": {
+    "test": "jest --coverage",
+    "test:watch": "jest --watch ",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch",
+    "dev": "webpack-dev-server --mode=development --config ./webpack.config.ts",
+    "build": "webpack --mode=production  --config ./webpack.config.ts",
+    "start": "serve --no-clipboard --single --listen 8080 build",
+    "format": "prettier --ignore-path .gitignore --write",
+    "lint": "eslint --ignore-path .gitignore .",
+    "validate": "npm run lint && npm run test && npm run build",
+    "setup": "npm install && npm run validate"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.3.0",
+    "@types/jest": "^28.1.7",
+    "@types/react-dom": "^18.0.6",
+    "@types/styled-components": "^5.1.26",
+    "@types/webpack": "^5.28.0",
+    "@typescript-eslint/eslint-plugin": "^5.33.1",
+    "@typescript-eslint/parser": "^5.33.1",
+    "css-loader": "^6.7.1",
+    "eslint": "^8.22.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "file-loader": "^6.2.0",
+    "html-loader": "^4.1.0",
+    "html-webpack-plugin": "^5.5.0",
+    "husky": "^8.0.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^28.1.3",
+    "jest-environment-jsdom": "^28.1.3",
+    "jest-watch-select-projects": "^2.0.0",
+    "mini-css-extract-plugin": "^2.6.1",
+    "node-sass": "^7.0.1",
+    "prettier": "^2.7.1",
+    "serve": "^14.0.1",
+    "style-loader": "^3.3.1",
+    "ts-jest": "^28.0.8",
+    "ts-loader": "^9.3.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.10.0",
+    "whatwg-fetch": "^3.6.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run build"
+    }
+  },
+  "lint-staged": {
+    "**/*.(ts|tsx|js|jsx|json|css|html|md)": [
+      "prettier",
+      "jest --findRelatedTest",
+      "git add"
+    ]
+  }
+}
